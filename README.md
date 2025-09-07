@@ -2,6 +2,7 @@
 A model that shows you possible questions when you upload an image and a title
 
 
+
 Idea is when I upload an image and a title, It should prompt top 10 questions i can ask and get answers from
 
 
@@ -18,4 +19,6 @@ dataset link
 https://huggingface.co/datasets/HuggingFaceM4/ChartQA
 
 
-3. 
+
+Notes to self:
+Most likely be finalizing working on ChartQA dataset. This is amazing since this is what we need in industry the most - any company any team
