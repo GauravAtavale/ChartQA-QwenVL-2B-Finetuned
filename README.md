@@ -22,3 +22,21 @@ https://huggingface.co/datasets/HuggingFaceM4/ChartQA
 
 Notes to self:
 Most likely be finalizing working on ChartQA dataset. This is amazing since this is what we need in industry the most - any company any team
+
+(Sept 9th)
+Progress so far by steps:
+
+1. Load the data
+used the chartqa dataset from- HuggingFaceM4/ChartQA
+2. Format the data into image, messages format to give instruction
+3. Load the model
+Using the Qwen/Qwen2-VL-2B-Instruct instruct moedl due to the size of it.
+# Load model with 4-bit quantization for memory efficiency
+model = Qwen2VLForConditionalGeneration.from_pretrained(
+    model_id,
+    device_map=None,
+    torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32,  # Fallback to float32 for CPU
+).to("mps")
+4. config lora and define trainable params -  take care of the lm_head_weight issue
+5. Use sfttrainer and train the model
+
