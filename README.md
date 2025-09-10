@@ -23,7 +23,7 @@ https://huggingface.co/datasets/HuggingFaceM4/ChartQA
 Notes to self:
 Most likely be finalizing working on ChartQA dataset. This is amazing since this is what we need in industry the most - any company any team
 
-(Sept 9th)
+(Sept 8th)
 Progress so far by steps:
 
 1. Load the data
@@ -39,4 +39,20 @@ model = Qwen2VLForConditionalGeneration.from_pretrained(
 ).to("mps")
 4. config lora and define trainable params -  take care of the lm_head_weight issue
 5. Use sfttrainer and train the model
+
+(Sept 9th)
+Progress so far:
+
+- fixed the lm.weight issue -- explicitely added as param to be trained
+- Tested inference with dummy images
+- Fine-tuned with 2 images as a test
+-  saved models and adapters
+
+
+
+
+
+
+
+
 
