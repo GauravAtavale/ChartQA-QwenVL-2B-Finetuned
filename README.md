@@ -48,6 +48,9 @@ Progress so far:
 - Fine-tuned with 2 images as a test
 -  saved models and adapters
 
+(Sept 10th)
+Progress so far:
+Running models on Kaggle
 
 
 
