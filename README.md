@@ -48,9 +48,16 @@ Progress so far:
 - Fine-tuned with 2 images as a test
 -  saved models and adapters
 
-(Sept 10th)
+(Sept 11th)
 Progress so far:
 Running models on Kaggle
+
+(Sept 12th)
+Progress so far:
+- Unsloth is the fastest way to train VL models on Kaggle
+- I figured uot a way to get the lora merged with base model - works perfectly fine
+- Next step build a model inference pipeline
+
 
 
 
