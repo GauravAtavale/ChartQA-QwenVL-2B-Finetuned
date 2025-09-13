@@ -58,8 +58,12 @@ Progress so far:
 - I figured uot a way to get the lora merged with base model - works perfectly fine
 - Next step build a model inference pipeline
 
-
-
+(Sept 13th)
+Progress so far:
+- Uploaded the SFT notebook
+- Have a separate notebook for inference
+- I can upload the training and inference as a single py file
+- Also have a chrome extension ready
 
 
 
