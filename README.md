@@ -61,8 +61,8 @@ Progress so far:
 (Sept 13th)
 Progress so far:
 - Uploaded the SFT notebook
-- Have a separate notebook for inference
-- I can upload the training and inference as a single py file
+- Have a separate notebook for inference 
+- I can upload the training and inference as a single py file - uploaded
 - Also have a chrome extension ready
 
 
