@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Selection Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f0f0f0;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .image-container {
+            position: relative;
+            display: inline-block;
+            border: 2px solid #ddd;
+            margin: 20px 0;
+        }
+        .test-image {
+            display: block;
+            cursor: crosshair;
+            max-width: 100%;
+            height: auto;
+        }
+        .selection-box {
+            position: absolute;
+            border: 2px solid #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+            pointer-events: none;
+            z-index: 10;
+        }
+        .debug-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 12px;
+            border-left: 4px solid #007bff;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .button.success {
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Simple Selection Test</h1>
+        
+        <div class="debug-info" id="debugInfo">
+            Ready to test selection...
+        </div>
+        
+        <div class="image-container" id="imageContainer">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkNoYXJ0IFRlc3Q8L3RleHQ+CiAgPHRleHQgeD0iNTAlIiB5PSI2MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlF1YXJ0ZXJseSBTYWxlczwvdGV4dD4KICA8dGV4dCB4PSI1MCUiIHk9IjcwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+UTE6ICQ1MEsgfCBRMjogJDc1SyB8IFEzOiAkNjBLIHwgUTQ6ICQ5MEs8L3RleHQ+Cjwvc3ZnPg==" 
+                 class="test-image" 
+                 id="testImage" 
+                 alt="Test Chart">
+        </div>
+        
+        <div>
+            <button class="button" id="clearBtn">Clear Selection</button>
+            <button class="button" id="cropBtn" disabled>Use Selected Area</button>
+        </div>
+        
+        <div id="result" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        const imageContainer = document.getElementById('imageContainer');
+        const testImage = document.getElementById('testImage');
+        const debugInfo = document.getElementById('debugInfo');
+        const clearBtn = document.getElementById('clearBtn');
+        const cropBtn = document.getElementById('cropBtn');
+        const result = document.getElementById('result');
+        
+        let isSelecting = false;
+        let startX, startY;
+        let selectionBox = null;
+        
+        function updateDebug(message) {
+            debugInfo.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            console.log(message);
+        }
+        
+        function createSelectionBox(x, y) {
+            if (selectionBox) {
+                selectionBox.remove();
+            }
+            
+            selectionBox = document.createElement('div');
+            selectionBox.className = 'selection-box';
+            selectionBox.style.left = x + 'px';
+            selectionBox.style.top = y + 'px';
+            selectionBox.style.width = '0px';
+            selectionBox.style.height = '0px';
+            
+            imageContainer.appendChild(selectionBox);
+            updateDebug(`Selection box created at (${x}, ${y})`);
+        }
+        
+        function updateSelectionBox(x, y) {
+            if (!selectionBox) return;
+            
+            const left = Math.min(startX, x);
+            const top = Math.min(startY, y);
+            const width = Math.abs(x - startX);
+            const height = Math.abs(y - startY);
+            
+            selectionBox.style.left = left + 'px';
+            selectionBox.style.top = top + 'px';
+            selectionBox.style.width = width + 'px';
+            selectionBox.style.height = height + 'px';
+            
+            updateDebug(`Selection: (${left}, ${top}) ${width}×${height}`);
+            
+            if (width > 10 && height > 10) {
+                cropBtn.disabled = false;
+                cropBtn.className = 'button success';
+                cropBtn.textContent = `Use Selected Area (${Math.round(width)}×${Math.round(height)})`;
+            } else {
+                cropBtn.disabled = true;
+                cropBtn.className = 'button';
+                cropBtn.textContent = 'Use Selected Area';
+            }
+        }
+        
+        // Mouse events
+        testImage.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            isSelecting = true;
+            startX = e.offsetX;
+            startY = e.offsetY;
+            
+            updateDebug(`Mouse down at (${startX}, ${startY})`);
+            createSelectionBox(startX, startY);
+        });
+        
+        testImage.addEventListener('mousemove', (e) => {
+            if (!isSelecting) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const currentX = e.offsetX;
+            const currentY = e.offsetY;
+            
+            updateSelectionBox(currentX, currentY);
+        });
+        
+        testImage.addEventListener('mouseup', (e) => {
+            if (!isSelecting) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            isSelecting = false;
+            const endX = e.offsetX;
+            const endY = e.offsetY;
+            
+            updateDebug(`Mouse up at (${endX}, ${endY})`);
+            updateSelectionBox(endX, endY);
+        });
+        
+        testImage.addEventListener('mouseleave', (e) => {
+            if (isSelecting) {
+                isSelecting = false;
+                updateDebug('Selection cancelled by mouse leave');
+            }
+        });
+        
+        // Button events
+        clearBtn.addEventListener('click', () => {
+            if (selectionBox) {
+                selectionBox.remove();
+                selectionBox = null;
+            }
+            cropBtn.disabled = true;
+            cropBtn.className = 'button';
+            cropBtn.textContent = 'Use Selected Area';
+            updateDebug('Selection cleared');
+        });
+        
+        cropBtn.addEventListener('click', () => {
+            if (selectionBox && !cropBtn.disabled) {
+                const left = parseInt(selectionBox.style.left);
+                const top = parseInt(selectionBox.style.top);
+                const width = parseInt(selectionBox.style.width);
+                const height = parseInt(selectionBox.style.height);
+                
+                updateDebug(`Cropping: (${left}, ${top}) ${width}×${height}`);
+                
+                // Create cropped image
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                ctx.drawImage(testImage, left, top, width, height, 0, 0, width, height);
+                
+                const croppedDataUrl = canvas.toDataURL('image/png');
+                
+                result.innerHTML = `
+                    <h3>Cropped Result:</h3>
+                    <img src="${croppedDataUrl}" style="border: 2px solid #4CAF50; max-width: 100%;">
+                    <p>Size: ${width}×${height} pixels</p>
+                `;
+                
+                updateDebug(`Image cropped successfully: ${width}×${height}`);
+            }
+        });
+        
+        updateDebug('Simple selection test ready - click and drag on the image above');
+    </script>
+</body>
+</html>
+
+

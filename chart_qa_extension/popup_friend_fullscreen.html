@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      overflow: hidden;
+    }
+    
+    .fullscreen-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 20px;
+    }
+    
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    
+    .main-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      min-height: 0;
+    }
+    
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .panel {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      flex: 1;
+      min-height: 0;
+    }
+    
+    .panel h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #FFD700;
+      font-weight: 600;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      flex: 1;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      min-height: 60px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(45deg, #4CAF50, #45a049);
+      color: white;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(45deg, #2196F3, #1976D2);
+      color: white;
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    }
+    
+    .btn-secondary:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(33, 150, 243, 0.4);
+    }
+    
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .preview-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    
+    .preview-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(0, 0, 0, 0.2);
+      display: none;
+    }
+    
+    .preview-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      border: 2px dashed rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+      text-align: center;
+    }
+    
+    .question-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    
+    textarea {
+      flex: 1;
+      width: 100%;
+      padding: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      resize: none;
+      font-family: inherit;
+      min-height: 120px;
+    }
+    
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    }
+    
+    .analyze-section {
+      margin-top: 20px;
+    }
+    
+    .analyze-btn {
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(45deg, #FF6B6B, #FF5252);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+      min-height: 60px;
+    }
+    
+    .analyze-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+    }
+    
+    .analyze-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      color: #FFD700;
+      font-size: 18px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #FFD700;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .result-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    
+    .result-box {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      overflow-y: auto;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    
+    .result-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+      text-align: center;
+    }
+    
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .message.success {
+      background: rgba(76, 175, 80, 0.2);
+      border: 1px solid rgba(76, 175, 80, 0.5);
+      color: #4CAF50;
+    }
+    
+    .message.error {
+      background: rgba(244, 67, 54, 0.2);
+      border: 1px solid rgba(244, 67, 54, 0.5);
+      color: #f44336;
+    }
+    
+    .message.info {
+      background: rgba(33, 150, 243, 0.2);
+      border: 1px solid rgba(33, 150, 243, 0.5);
+      color: #2196F3;
+    }
+    
+    .instructions {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.5;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .instructions h3 {
+      margin: 0 0 15px 0;
+      color: #FFD700;
+      font-size: 18px;
+    }
+    
+    .instructions ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    
+    .instructions li {
+      margin-bottom: 8px;
+    }
+    
+    /* Responsive design for smaller screens */
+    @media (max-width: 1200px) {
+      .main-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+      
+      .header h1 {
+        font-size: 28px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .fullscreen-container {
+        padding: 15px;
+        gap: 15px;
+      }
+      
+      .header h1 {
+        font-size: 24px;
+      }
+      
+      .panel {
+        padding: 20px;
+      }
+      
+      .btn {
+        padding: 12px 16px;
+        font-size: 14px;
+        min-height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="fullscreen-container">
+    <div class="header">
+      <h1>📊 Chart QA Assistant</h1>
+      <p>AI-powered chart analysis tool - Full Screen Mode (Friend Version)</p>
+    </div>
+    
+    <div class="main-content">
+      <div class="left-panel">
+        <div class="panel">
+          <h2>📸 Screenshot</h2>
+          
+          <div class="instructions">
+            <h3>📋 How to use:</h3>
+            <ol>
+              <li><strong>Select Area:</strong> Choose a specific part of the screen to analyze</li>
+              <li><strong>Capture Full:</strong> Take a screenshot of the entire visible area</li>
+              <li><strong>Ask Question:</strong> Type your question about the chart/image</li>
+              <li><strong>Analyze:</strong> Get AI-powered insights!</li>
+            </ol>
+          </div>
+          
+          <div class="button-group">
+            <button id="selectAreaBtn" class="btn btn-primary">🎯 Select Area</button>
+            <button id="captureBtn" class="btn btn-secondary">📸 Capture Full</button>
+          </div>
+          
+          <div class="preview-container">
+            <img id="previewImage" class="preview-image" alt="Screenshot preview">
+            <div id="previewPlaceholder" class="preview-placeholder">
+              <div>
+                <div style="font-size: 48px; margin-bottom: 15px;">📷</div>
+                <div>Take a screenshot to get started!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="right-panel">
+        <div class="panel">
+          <h2>💭 Ask Question</h2>
+          
+          <div class="question-section">
+            <textarea 
+              id="questionInput" 
+              placeholder="Ask a question about the chart or image...&#10;&#10;Examples:&#10;• What is the trend in this chart?&#10;• What does this data show?&#10;• What are the key insights?&#10;• Compare the values shown"
+            ></textarea>
+          </div>
+          
+          <div class="analyze-section">
+            <button id="analyzeBtn" class="analyze-btn" disabled>
+              🤖 Analyze with AI
+            </button>
+            
+            <div class="loading" id="loading">
+              <div class="spinner"></div>
+              <div>Analyzing your image...</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="panel">
+          <h2>🤖 AI Analysis</h2>
+          
+          <div class="result-container">
+            <div id="resultBox" class="result-box">
+              <div class="result-placeholder">
+                <div>
+                  <div style="font-size: 48px; margin-bottom: 15px;">🤖</div>
+                  <div>Take a screenshot and ask a question to get started!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup_friend.js"></script>
+</body>
+</html>

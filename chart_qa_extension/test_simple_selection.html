@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Area Selection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-box { 
+            width: 200px; 
+            height: 100px; 
+            background: #4CAF50; 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .instructions {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Area Selection Test</h1>
+    
+    <div class="instructions">
+        <h3>Test Steps:</h3>
+        <ol>
+            <li>Open Chrome extension popup</li>
+            <li>Click "🎯 Select Area"</li>
+            <li>You should see a dark overlay</li>
+            <li>Click and drag to select one of the green boxes below</li>
+            <li>Check browser console (F12) for messages</li>
+        </ol>
+    </div>
+    
+    <div class="test-box">Test Box 1</div>
+    <div class="test-box">Test Box 2</div>
+    <div class="test-box">Test Box 3</div>
+    
+    <script>
+        console.log('Test page loaded');
+        
+        // Listen for area selection messages
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'CHART_QA_AREA_SELECTED') {
+                console.log('Area selected:', event.data.selection);
+                alert('Area selected: ' + JSON.stringify(event.data.selection));
+            } else if (event.data.type === 'CHART_QA_AREA_CANCELLED') {
+                console.log('Area selection cancelled');
+                alert('Area selection cancelled');
+            }
+        });
+    </script>
+</body>
+</html>
+
+

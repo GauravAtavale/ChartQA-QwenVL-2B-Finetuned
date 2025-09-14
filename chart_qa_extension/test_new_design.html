@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Area Selection Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f5f5f5;
+        }
+        .test-chart { 
+            width: 300px; 
+            height: 200px; 
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .chart-data {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 New Area Selection Test</h1>
+    
+    <div class="instructions">
+        <h3>Testing the New Design:</h3>
+        <ol>
+            <li><strong>Reload the extension</strong> in Chrome (chrome://extensions/)</li>
+            <li><strong>Click the extension icon</strong> to open popup</li>
+            <li><strong>Click "🎯 Select Area"</strong> button</li>
+            <li><strong>You should see:</strong>
+                <ul>
+                    <li>Dark overlay covering the page</li>
+                    <li>Green instruction panel at the top</li>
+                    <li>Crosshair cursor</li>
+                </ul>
+            </li>
+            <li><strong>Click and drag</strong> to select one of the charts below</li>
+            <li><strong>Release mouse</strong> to confirm selection</li>
+            <li><strong>Check the extension popup</strong> for the cropped image</li>
+        </ol>
+    </div>
+    
+    <div class="test-chart">
+        <div class="chart-title">📊 Sales Chart</div>
+        <div class="chart-data">Q1: $50K | Q2: $75K<br>Q3: $60K | Q4: $90K</div>
+    </div>
+    
+    <div class="test-chart">
+        <div class="chart-title">👥 User Growth</div>
+        <div class="chart-data">Jan: 1K | Feb: 1.5K<br>Mar: 2K | Apr: 2.5K</div>
+    </div>
+    
+    <div class="test-chart">
+        <div class="chart-title">💰 Revenue</div>
+        <div class="chart-data">2019: $100K | 2020: $120K<br>2021: $150K | 2022: $180K</div>
+    </div>
+    
+    <div class="instructions">
+        <h3>What to Expect:</h3>
+        <ul>
+            <li>✅ <strong>Dark overlay</strong> with green instruction panel</li>
+            <li>✅ <strong>Green selection box</strong> when dragging</li>
+            <li>✅ <strong>Size indicator</strong> showing dimensions</li>
+            <li>✅ <strong>ESC key</strong> to cancel selection</li>
+            <li>✅ <strong>Cropped image</strong> appears in extension popup</li>
+        </ul>
+        
+        <h3>Debug Info:</h3>
+        <p>Open browser console (F12) to see debug messages like:</p>
+        <ul>
+            <li>"Area selector script loaded"</li>
+            <li>"Selection started at: X, Y"</li>
+            <li>"Selection ended: {left, top, width, height}"</li>
+            <li>"Sending selection result: ..."</li>
+        </ul>
+    </div>
+    
+    <script>
+        console.log('New design test page loaded');
+        console.log('Ready for area selection testing');
+        
+        // Listen for area selection messages
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'CHART_QA_AREA_SELECTED') {
+                console.log('✅ Area selected successfully:', event.data.selection);
+                alert('✅ Area selected: ' + JSON.stringify(event.data.selection));
+            } else if (event.data && event.data.type === 'CHART_QA_AREA_CANCELLED') {
+                console.log('❌ Area selection cancelled:', event.data.reason);
+                alert('❌ Area selection cancelled: ' + event.data.reason);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
