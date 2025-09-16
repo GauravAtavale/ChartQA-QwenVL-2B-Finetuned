@@ -3,7 +3,7 @@ let currentScreenshot = null;
 
 // 🔧 CONFIGURE THIS URL FOR YOUR FRIEND
 // Replace with your ngrok URL or public IP
-const API_BASE_URL = 'https://f6745f507a42.ngrok-free.app'; // Change this!
+const API_BASE_URL = ''; // Change this!
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Friend popup loaded');
