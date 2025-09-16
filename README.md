@@ -65,7 +65,14 @@ Progress so far:
 - I can upload the training and inference as a single py file - uploaded
 - Also have a chrome extension ready
 
+(Sept 15th)
+Progress so far:
+New idea is to : Train on GSM8K first and then fine tune the model. Also the following 
 
+- **Week 1:** Polish repo (README, results, diagrams).
+- **Week 2:** Write a blog + record demo video.
+- **Week 3:** Share on LinkedIn/Twitter with a clean narrative.
+- **Week 4:** Outreach to xAI engineers/researchers with the repo + demo link.
 
 
 
