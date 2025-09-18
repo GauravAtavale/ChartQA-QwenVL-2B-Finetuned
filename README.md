@@ -74,6 +74,7 @@ New idea is to : Train on GSM8K first and then fine tune the model. Also the fol
 - **Week 3:** Share on LinkedIn/Twitter with a clean narrative.
 - **Week 4:** Outreach to xAI engineers/researchers with the repo + demo link.
 
-
-
+(Sept 17th)
+Progress so far:
+Plan Blog idea and write blog soon - Blog 1 by 18th EOD
 
